@@ -23,17 +23,16 @@ input("Press Enter to continue...")
 # TASK 1
 # DONE: Print the first 20 rows using a loop to identify the data.
 print("\n\nTASK 1: Printing the first 20 samples")
-
-"""
-function firts_elements(total_elements)
-Args:
-    total_elements: all elements that user whants to show
-    element_list: list that will be printed
-Returns:
-    list of the first x values
-"""
-
 def firts_elements(total_elements):
+    """
+    function firts_elements(total_elements)
+    Args:
+        total_elements: all elements that user whants to show
+        element_list: list that will be printed
+    Returns:
+        list of the first x values
+    """
+
     for i in range(total_elements):
         print("{} register -> {}\n".format(i + 1, data_list[i]))
 
@@ -45,16 +44,16 @@ input("Press Enter to continue...")
 
 print("\nTASK 2: Printing the genders of the first 20 samples")
 
-"""
-function first_elements_by_column(column, total_elements):
-Args:
-    column: column that will be printed elements
-    total_elements: amount of elements that will be printed
-Returns:
-    output with a specific amount of elements with given column
-"""
-
 def first_elements_by_column(column, total_elements):
+
+    """
+    function first_elements_by_column(column, total_elements):
+    Args:
+        column: column that will be printed elements
+        total_elements: amount of elements that will be printed
+    Returns:
+        output with a specific amount of elements with given column
+    """
     for i in range(total_elements):
         print(data_list[i][column.title()])
 
@@ -65,16 +64,16 @@ input("Press Enter to continue...")
 # TASK 3
 # DONE: Create a function to add the columns(features) of a list in another list in the same order
 
-"""
-function column_to_list(data, column):
-Args:
-    data: dictionary that will be transformed
-    column: column that will be transformed in list
-Returns:
-    a list with elements from given column
-"""
 
 def column_to_list(data, column):
+    """
+    function column_to_list(data, column):
+    Args:
+        data: dictionary that will be transformed
+        column: column that will be transformed in list
+    Returns:
+        a list with elements from given column
+    """
     column_list = []
     for sample in data:
         column_list.append(sample[column])
@@ -91,12 +90,26 @@ assert len(column_to_list(data_list, 'Gender')) == 1551505, "TASK 3: Wrong lengh
 assert column_to_list(data_list, 'Gender')[0] == "" and column_to_list(data_list, 'Gender')[1] == "Male", "TASK 3: The list doesn't match."
 # # -----------------------------------------------------
 
+
+def sum_list(list):
+    """
+        function sum_list(list):
+        Args:
+            list: list of integers
+        Returns:
+            sum of all list
+    """
+    total = 0
+    for value in list:
+            total += value
+    return total
+
 input("Press Enter to continue...")
 # Now we know how to access the features, let's count how many Males and Females the dataset have
 # TASK 4
 # DONE: Count each gender. You should not use a function to do that.
-male = sum(sample.get('Gender') == 'Male' for sample in data_list)
-female = sum(sample.get('Gender') == 'Female' for sample in data_list)
+male = sum_list(sample['Gender'] == 'Male' for sample in data_list)
+female = sum_list(sample.get('Gender') == 'Female' for sample in data_list)
 
 
 # # Checking the result
@@ -111,15 +124,15 @@ input("Press Enter to continue...")
 # TASK 5
 # DONE: Create a function to count the genders. Return a list
 
-"""
-function count_gender(data):
-Args:
-    data: dictionary which will be consulted
-Returns:
-    a list with total amount of gender -> [male, female]
-"""
 
 def count_gender(data):
+    """
+    function count_gender(data):
+    Args:
+        data: dictionary which will be consulted
+    Returns:
+        a list with total amount of gender -> [male, female]
+    """
     male = sum(sample.get('Gender') == 'Male' for sample in data)
     female = sum(sample.get('Gender') == 'Female' for sample in data)
     return [male, female]
@@ -140,17 +153,25 @@ input("Press Enter to continue...")
 # DONE: Create a function to get the most popular gender and print the gender as string.
 # We expect to see "Male", "Female" or "Equal" as answer.
 
-"""
-function most_popular_gender(data):
-Args:
-    data: dictionary which will be consulted
-Returns:
-    which gender has more register in database
-"""
 
 def most_popular_gender(data):
+    """
+    function most_popular_gender(data):
+    Args:
+        data: dictionary which will be consulted
+    Returns:
+        which gender has more register in database
+    """
     male, female = count_gender(data)
     answer = "Male" if male > female else "Female"
+
+    if male > female:
+        answer = 'Male'
+    elif female > male:
+        answer = 'Female'
+    else: 
+        answer = 'Same amount'
+
     return answer
 
 
@@ -167,47 +188,47 @@ input("Press Enter to continue...")
 # DONE: Plot a similar graph for user_types. Make sure the legend is correct.
 print("\nTASK 7: Check the chart!")
 
-"""
-function plot_graph_by_field(field):
-Args:
-    field: specific column that will be analized
-Returns:
-    a graph from that field
-"""
 
 def plot_graph_by_field(field):
+    """
+    function plot_graph_by_field(field):
+    Args:
+        field: specific column that will be analized
+    Returns:
+        a graph from that field
+    """
     user_type_list = column_to_list(data_list, field)
     types = list(set(user_type_list))
     quantity = count_total_by_fields(field, types)
     create_graph(types, quantity, field)
 
-"""
-function count_total_by_fields(field_name, types):
-Args:
-    field_name: specific column that will be analized
-    types: values alocated in passed field
-Returns:
-    a list with an amount based on type/fields -> [1000, 2000]
-"""
 
 def count_total_by_fields(field_name, types):
+    """
+    function count_total_by_fields(field_name, types):
+    Args:
+        field_name: specific column that will be analized
+        types: values alocated in passed field
+    Returns:
+        a list with an amount based on type/fields -> [1000, 2000]
+    """
     total = []
     for type in types:
         total.append(sum(sample.get(field_name) == type for sample in data_list))
 
     return total
 
-"""
-function create_graph(types, quantity, field):
-Args:
-    types: values alocated in passed field
-    quantity: amount of values based on types
-    field: specific column that will be analized
-Returns:
-    a graph
-"""
 
 def create_graph(types, quantity, field):
+    """
+    function create_graph(types, quantity, field):
+    Args:
+        types: values alocated in passed field
+        quantity: amount of values based on types
+        field: specific column that will be analized
+    Returns:
+        a graph
+    """
     y_pos = list(range(len(types)))
     plt.bar(y_pos, quantity)
     plt.ylabel('Quantity')
@@ -235,16 +256,16 @@ input("Press Enter to continue...")
 # TASK 9
 # DONE: Find the Minimum, Maximum, Mean and Median trip duration.
 
-"""
-function calculate_median(trip_duration_list, list_length):
-Args:
-    trip_duration_list: list with all total durations
-    list_length: length of list
-Returns:
-    median of list
-"""
-
 def calculate_median(trip_duration_list, list_length):
+    """
+        function calculate_median(trip_duration_list, list_length):
+        Args:
+            trip_duration_list: list with all total durations
+            list_length: length of list
+        Returns:
+        median of list
+    """
+
     if length % 2 == 0:
         return (trip_duration_list[list_length//2] + trip_duration_list[list_length//2-1]) / 2
     else:
@@ -258,8 +279,9 @@ length = len(trip_duration_list)
 
 min_trip = trip_duration_list[0]
 max_trip = trip_duration_list[-1]
-mean_trip = round(float(sum(trip_duration_list))/length)
+mean_trip = round(float(sum_list(trip_duration_list))/length)
 median_trip = calculate_median(trip_duration_list, length)
+
 
 print("\nTASK 9: Printing the min, max, mean and median")
 print("Min: ", min_trip, "Max: ", max_trip, "Mean: ", mean_trip, "Median: ", median_trip)
